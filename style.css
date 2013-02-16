@@ -18,3 +18,43 @@
 	border-radius: 6px;
 	position: absolute;
 }
+
+#ctrl {
+	width: 100%;
+	height: 28px;
+	padding: 6px 0;
+	background: #333;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+#ctrl > * {
+	height: 22px;
+	padding: 2px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #ccc;
+	cursor: pointer;
+}
+
+#ctrl > *:hover {
+	background: #eee;
+}
+
+#ctrl .progress {
+	margin: 0 200px 0 6px;
+}
+
+#ctrl .progress .bar {
+	width: 0;
+	height: 100%;
+	background: #333;
+	border-radius: 4px;
+}
+
+#ctrl .play {
+	width: 22px;
+	float: right;
+	margin: 0 6px;
+}
