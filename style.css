@@ -6,6 +6,7 @@
 html {
 	overflow: hidden;
 	font: 12px Helvetica, Arial, sans-serif;
+	background: #dec;
 	color: #fff;
 }
 
@@ -54,14 +55,14 @@ html {
 }
 
 #ctrl .clock {
-	width: 50px;
+	width: 52px;
 	float: right;
 	background: transparent;
 	border-color: transparent;
 }
 
 #ctrl .progress {
-	margin: 0 200px 0 6px;
+	margin: 0 168px 0 6px;
 }
 
 #ctrl .progress .bar {
@@ -71,8 +72,10 @@ html {
 	border-radius: 4px;
 }
 
-#ctrl .play {
+#ctrl .button {
 	width: 22px;
 	float: right;
-	margin: 0 6px;
+	margin: 0 6px 0 0;
+	text-align: center;
+	color: #333;
 }

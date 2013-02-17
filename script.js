@@ -3,8 +3,10 @@ jQuery(function ($) {
 	var $html = $(document),
 		$map = $('#map'),
 		$ctrl = $('#ctrl'),
-		$play = $('<div class=play>').appendTo($ctrl),
+		$play = $('<div class=button>').attr('title', 'Play/pause').appendTo($ctrl),
 		$clock = $('<div class=clock>').appendTo($ctrl),
+		$speedUp = $('<div class=button>').text('+').attr('title', 'Increase speed').appendTo($ctrl),
+		$speedDown = $('<div class=button>').text('-').attr('title', 'Decrease speed').appendTo($ctrl),
 		$progress = $('<div class=progress>').appendTo($ctrl),
 		$progressBar = $('<div class=bar>').appendTo($progress),
 		mapDrag = false,
@@ -43,7 +45,7 @@ jQuery(function ($) {
 		e.preventDefault();
 	}).bind('mousewheel', function (e) {
 		var factor = 1 + e.originalEvent.wheelDeltaY / 5000;
-		$map.width($map.width() * factor);
+		$map.width(Math.max($map.width() * factor, $(window).width()));
 		e.preventDefault();
 	});
 
@@ -65,6 +67,7 @@ jQuery(function ($) {
 	function paint() {
 		$clock.text(new Date(Event.start.getTime() + currentLocation * 1000).toString().substr(16,5));
 		$progressBar.width($progress.width() * currentLocation / duration);
+		$play.text(interval ? '||' : '▶');
 
 		if (currentLocation >= duration) {
 			pause();
@@ -110,6 +113,7 @@ jQuery(function ($) {
 		if (interval) {
 			clearInterval(interval);
 			interval = null;
+			paint();
 		}
 	}
 
@@ -123,4 +127,12 @@ jQuery(function ($) {
 	}
 
 	paint();
+
+	$speedUp.click(function () {
+		speed *= 2;
+	})
+
+	$speedDown.click(function () {
+		speed /= 2;
+	})
 });
