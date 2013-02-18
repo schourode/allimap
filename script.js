@@ -131,7 +131,7 @@ jQuery(function ($) {
 					'left': location.x + '%',
 					'top': location.y + '%',
 					'background-color': 'hsl('
-						+ Math.floor(score / Event.maxScore * 256)
+						+ Math.floor(256 - score / Event.maxScore * 256)
 						+ ',80%,40%)'
 				});
 			}
