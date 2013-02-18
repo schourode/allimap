@@ -26,7 +26,7 @@ html {
 	position: absolute;
 	border: 2px solid #fff;
 	border-radius: 10px;
-	background: #333;
+	background: hsl(0,80%,40%);
 	text-align: center;
 }
 
@@ -62,7 +62,7 @@ html {
 }
 
 #ctrl .progress {
-	margin: 0 168px 0 6px;
+	margin: 0 242px 0 6px;
 }
 
 #ctrl .progress .bar {
@@ -78,4 +78,33 @@ html {
 	margin: 0 6px 0 0;
 	text-align: center;
 	color: #333;
+}
+
+#ctrl .button.runners {
+	width: 64px;
+}
+
+#runners {
+	width: 250px;
+	height: 340px;
+	border: 4px solid #333;
+	border-width: 4px 0 0 4px;
+	border-radius: 6px 0 0 0;
+	background: #eee;
+	overflow: auto;
+	position: fixed;
+	bottom: 40px;
+	right: 0;
+	display: none;
+}
+
+#runners label {
+	float: left;
+	width: 40px;
+	margin: 8px 0 0 8px;
+	color: #333;
+}
+
+#runners label input {
+	margin-right: 4px;
 }

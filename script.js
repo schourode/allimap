@@ -3,6 +3,8 @@ jQuery(function ($) {
 	var $html = $(document),
 		$map = $('#map'),
 		$ctrl = $('#ctrl'),
+		$runners = $('#runners'),
+		$runnersBtn = $('<div class="button runners">').text('Alle').appendTo($ctrl),
 		$play = $('<div class=button>').attr('title', 'Play/pause').appendTo($ctrl),
 		$clock = $('<div class=clock>').appendTo($ctrl),
 		$speedUp = $('<div class=button>').text('+').attr('title', 'Increase speed').appendTo($ctrl),
@@ -12,13 +14,32 @@ jQuery(function ($) {
 		mapDrag = false,
 		markers = [];
 
-	for (var i = Runners.length - 1; i >= 0; --i) {
+	for (var i = 0; i < Runners.length; i++) {
 		var runner = Runners[i];
-		
+
 		markers[i] = $('<div class=marker>')
 			.text(runner.name)
-			.appendTo($map);
+			.prependTo($map);
+
+		$('<input type=checkbox checked>')
+			.data('id', i)
+			.bind('change', function () {
+				markers[$(this).data('id')].toggle($(this).is(':checked'));
+				var checkCount = $('input:checked', $runners).size();
+				$runnersBtn.text(checkCount === Runners.length ? 'Alle' : checkCount === 0 ? 'Ingen' : checkCount + ' sjak');
+			})
+			.appendTo($runners)
+			.wrap('<label>')
+			.after(document.createTextNode(runner.name));
 	}
+
+	$('.all', $runners).click(function () {
+		$('input:not(:checked)', $runners).click();
+	});
+
+	$('.none', $runners).click(function () {
+		$('input:checked', $runners).click();
+	});
 
 	$html.keydown(function (e) {
 		if (e.which === 32) {
@@ -57,6 +78,10 @@ jQuery(function ($) {
 		togglePlayPause();
 	});
 
+	$runnersBtn.click(function () {
+		$runners.toggle();
+	})
+
 	// Playback.
 	var fps = 30,
 		speed = 1000,
@@ -73,7 +98,7 @@ jQuery(function ($) {
 			pause();
 		}
 		else {
-			for (var i = Runners.length - 1; i >= 0; --i) {
+			for (var i = 0; i < Runners.length; i++) {
 				var track = Runners[i].track,
 					location = Controls[0],
 					enrouteSince = 0,
