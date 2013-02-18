@@ -83,16 +83,17 @@ jQuery(function ($) {
 	})
 
 	// Playback.
-	var fps = 30,
+	var fps = 20,
 		speed = 1000,
 		currentLocation = 0,
 		duration = (Event.end.getTime() - Event.start.getTime()) / 1000,
+		cache = [],
 		interval;
 
 	function paint() {
+		var paintStart = new Date();
 		$clock.text(new Date(Event.start.getTime() + currentLocation * 1000).toString().substr(16,5));
 		$progressBar.width(Math.round($progress.width() * currentLocation / duration));
-		console.log($progress.width() , currentLocation , duration);
 		$play.text(interval ? '||' : '▶');
 
 		if (currentLocation >= duration) {
@@ -105,7 +106,7 @@ jQuery(function ($) {
 					enrouteSince = 0,
 					score = 0;
 
-				for (var j = 0; j < track.length; j++) {
+				for (var j = cache[i] || 0; j < track.length; j++) {
 					var point = track[j],
 						seen = point[0],
 						at = Controls[point[1]],
@@ -126,6 +127,8 @@ jQuery(function ($) {
 					location = at;
 					enrouteSince = seen;
 					score = newScore;
+
+					cache[i] = j;
 				}
 
 				markers[i].css({
@@ -162,6 +165,7 @@ jQuery(function ($) {
 
 	function jump(decimal) {
 		currentLocation = decimal * duration;
+		cache = [];
 		paint();
 	}
 
