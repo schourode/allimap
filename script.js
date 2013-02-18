@@ -91,8 +91,8 @@ jQuery(function ($) {
 		interval;
 
 	function paint() {
-		var paintStart = new Date();
-		$clock.text(new Date(Event.start.getTime() + currentLocation * 1000).toString().substr(16,5));
+		var time = new Date(Event.start.getTime() + currentLocation * 1000);
+		$clock.text(('0' + time.getHours()).slice(-2) + ':' + ('0' + time.getMinutes()).slice(-2));
 		$progressBar.width(Math.round($progress.width() * currentLocation / duration));
 		$play.text(interval ? '||' : '▶');
 

@@ -26,6 +26,7 @@ html {
 	position: absolute;
 	border: 2px solid #fff;
 	border-radius: 10px;
+	background: #333;
 	background: hsl(255,80%,40%);
 	text-align: center;
 }
