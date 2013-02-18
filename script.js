@@ -91,7 +91,8 @@ jQuery(function ($) {
 
 	function paint() {
 		$clock.text(new Date(Event.start.getTime() + currentLocation * 1000).toString().substr(16,5));
-		$progressBar.width($progress.width() * currentLocation / duration);
+		$progressBar.width(Math.round($progress.width() * currentLocation / duration));
+		console.log($progress.width() , currentLocation , duration);
 		$play.text(interval ? '||' : '▶');
 
 		if (currentLocation >= duration) {

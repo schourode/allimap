@@ -1,6 +1,6 @@
 var Event = {
-	start: new Date('2013-02-02 17:55'),
-	end: new Date('2013-02-03 14:00'),
+	start: new Date(2013, 02, 02, 17, 55),
+	end: new Date(2013, 02, 03, 14, 00),
 	maxScore: 500
 };
 
