@@ -19,7 +19,7 @@ jQuery(function ($) {
 
 		markers[i] = $('<div class=marker>')
 			.text(runner.name)
-			.prependTo($map);
+			.appendTo($map);
 
 		$('<input type=checkbox checked>')
 			.data('id', i)
@@ -136,14 +136,15 @@ jQuery(function ($) {
 					'top': location.y + '%',
 					'background-color': 'hsl('
 						+ Math.floor(256 - score / Event.maxScore * 256)
-						+ ',80%,40%)'
+						+ ',80%,40%)',
+					'z-index': Math.round(score)
 				});
 			}
 		}
 	}
 
 	function play() {
-		if (!interval) {
+		if (!interval && currentLocation < duration) {
 			interval = setInterval(function () {
 				currentLocation += speed / fps;
 				paint();
