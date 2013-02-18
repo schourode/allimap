@@ -76,26 +76,39 @@ jQuery(function ($) {
 			for (var i = Runners.length - 1; i >= 0; --i) {
 				var track = Runners[i].track,
 					location = Controls[0],
-					enrouteSince = 0;
+					enrouteSince = 0,
+					score = 0;
 
 				for (var j = 0; j < track.length; j++) {
-					var seen = track[j][0],
-						at = Controls[track[j][1]];
-					
+					var point = track[j],
+						seen = point[0],
+						at = Controls[point[1]],
+						newScore = point[2];
+
 					if (seen >= currentLocation) {
 						var covered = (currentLocation - enrouteSince) / (seen - enrouteSince);
-						location = {
-							x: location.x + covered * (at.x - location.x),
-							y: location.y + covered * (at.y - location.y)
-						};
+						if (at !== location) {
+							location = {
+								x: location.x + covered * (at.x - location.x),
+								y: location.y + covered * (at.y - location.y)
+							};
+						}
+						score = score + covered * (newScore - score);
 						break;
 					}
 
 					location = at;
 					enrouteSince = seen;
+					score = newScore;
 				}
 
-				markers[i].css({ left: location.x + '%', top: location.y + '%' });
+				markers[i].css({
+					'left': location.x + '%',
+					'top': location.y + '%',
+					'background-color': 'hsl('
+						+ Math.floor(score / Event.maxScore * 256)
+						+ ',80%,40%)'
+				});
 			}
 		}
 	}
