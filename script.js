@@ -24,9 +24,15 @@ jQuery(function ($) {
 		$('<input type=checkbox checked>')
 			.data('id', i)
 			.bind('change', function () {
-				markers[$(this).data('id')].toggle($(this).is(':checked'));
-				var checkCount = $('input:checked', $runners).size();
-				$runnersBtn.text(checkCount === Runners.length ? 'Alle' : checkCount === 0 ? 'Ingen' : checkCount + ' sjak');
+				var $input = $(this),
+					id = $input.data('id'),
+					checked = $input.is(':checked'),
+					runner = Runners[id];
+
+				trackEvent('Runners', checked ? 'Show' : 'Hide', runner.name);
+				markers[id].toggle(checked);
+				
+				$runnersBtn.text($(':checked', $runners).size() + ' sjak');
 			})
 			.appendTo($runners)
 			.wrap('<label>')
@@ -34,15 +40,22 @@ jQuery(function ($) {
 	}
 
 	$('.all', $runners).click(function () {
-		$('input:not(:checked)', $runners).click();
+		trackEvent('Runners', 'Show', 'All');
+		$(':checkbox', $runners).prop('checked', true);
+		$('.marker', $map).show();
+		$runnersBtn.text('Alle');
 	});
 
 	$('.none', $runners).click(function () {
-		$('input:checked', $runners).click();
+		trackEvent('Runners', 'Hide', 'All');
+		$(':checkbox', $runners).prop('checked', false);
+		$('.marker', $map).hide();
+		$runnersBtn.text('Ingen');
 	});
 
 	$html.keydown(function (e) {
 		if (e.which === 32) {
+			trackEvent('Controls', 'Play/pause');
 			togglePlayPause();
 			e.preventDefault();
 		}
@@ -71,10 +84,12 @@ jQuery(function ($) {
 	});
 
 	$progress.click(function (e) {
+		trackEvent('Controls', 'Jump');
 		jump(e.offsetX / $progress.width());
 	});
 
 	$play.click(function () {
+		trackEvent('Controls', 'Play/pause');
 		togglePlayPause();
 	});
 
@@ -87,6 +102,7 @@ jQuery(function ($) {
 		speed = 1000,
 		currentLocation = 0,
 		duration = (Event.end.getTime() - Event.start.getTime()) / 1000,
+		playbackStarted,
 		cache = [],
 		interval;
 
@@ -145,6 +161,7 @@ jQuery(function ($) {
 
 	function play() {
 		if (!interval && currentLocation < duration) {
+			playbackStarted = new Date();
 			interval = setInterval(function () {
 				currentLocation += speed / fps;
 				paint();
@@ -154,6 +171,8 @@ jQuery(function ($) {
 
 	function pause() {
 		if (interval) {
+			var secondsElapsed = Math.round((new Date() - playbackStarted) / 1000);
+			trackEvent('Playback', 'Duration', null, secondsElapsed);
 			clearInterval(interval);
 			interval = null;
 			paint();
@@ -170,13 +189,22 @@ jQuery(function ($) {
 		paint();
 	}
 
+	function trackEvent(category, action, label, value) {
+		if (typeof _gaq != 'undefined') {
+			console.log(['_trackEvent', category, action, label, value]);
+			_gaq.push(['_trackEvent', category, action, label, value]);
+		}
+	}
+
 	paint();
 
 	$speedUp.click(function () {
+		trackEvent('Controls', 'Speed up');
 		speed *= 2;
 	})
 
 	$speedDown.click(function () {
+		trackEvent('Controls', 'Speed down');
 		speed /= 2;
 	})
 });
