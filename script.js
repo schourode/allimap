@@ -14,6 +14,11 @@ jQuery(function ($) {
 		mapDrag = false,
 		markers = [];
 
+	/*$map.click(function (e) {
+		console.log('{ x:' + (100 * e.clientX / $map.width()) +
+					', y:' + (100 * e.clientY / $map.height()) + '},');
+	});*/
+
 	for (var i = 0; i < Runners.length; i++) {
 		var runner = Runners[i];
 
@@ -191,7 +196,6 @@ jQuery(function ($) {
 
 	function trackEvent(category, action, label, value) {
 		if (typeof _gaq != 'undefined') {
-			console.log(['_trackEvent', category, action, label, value]);
 			_gaq.push(['_trackEvent', category, action, label, value]);
 		}
 	}
