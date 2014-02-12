@@ -1,7 +1,9 @@
 var Event = {
 	start: new Date(2014, 02, 01, 17, 30),
 	end: new Date(2014, 02, 02, 14, 30),
-	maxScore: 420
+	maxScore: 420,
+	sunset: new Date(2014, 02, 01, 16, 40),
+    sunrise: new Date(2014, 02, 02, 08, 01)
 };
 
 var Controls = [

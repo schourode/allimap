@@ -11,6 +11,7 @@ jQuery(function ($) {
 		$speedDown = $('<div class=button>').text('-').attr('title', 'Decrease speed').appendTo($ctrl),
 		$progress = $('<div class=progress>').appendTo($ctrl),
 		$progressBar = $('<div class=bar>').appendTo($progress),
+		$sky = $('<div class=sky>').appendTo($map),
 		mapDrag = false,
 		markers = [];
 
@@ -107,6 +108,7 @@ jQuery(function ($) {
 		speed = 1000,
 		currentLocation = 0,
 		duration = (Event.end.getTime() - Event.start.getTime()) / 1000,
+        twilight = 2*60*60*1000,
 		playbackStarted,
 		cache = [],
 		interval;
@@ -161,6 +163,11 @@ jQuery(function ($) {
 					'z-index': Math.round(score)
 				});
 			}
+
+			var sun = (time < Event.sunset || time > Event.sunrise) ? 0 :
+                Math.min(time.getTime() - Event.sunset.getTime(), Event.sunrise.getTime() - time.getTime(), twilight) / twilight;
+
+			$sky.css('opacity', sun * .3);
 		}
 	}
 

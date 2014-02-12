@@ -19,6 +19,16 @@ html {
 	cursor: move;
 }
 
+#map .sky {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #003;
+    opacity: 0;
+}
+
 #map .marker {
 	width: 14px;
 	height: 14px;
